@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable
 
+  validates :email, presence: true
+  validates :name, presence: true
+
   has_many :user_groups
   has_many :groups, through: :user_groups
 
