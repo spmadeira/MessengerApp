@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 2.5'
 
 #Auth
 gem 'devise'
-
+#gem 'active_model_serializers', '~> 0.10.0'
 gem 'devise_token_auth'
 
 # Reduces boot times through caching; required in config/boot.rb

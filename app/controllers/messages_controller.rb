@@ -1,5 +1,20 @@
 class MessagesController < ApplicationController
-    before_action :authenticate_user!, only: [:create]
+    before_action :authenticate_user!, only: [:create, :show]
+
+    def show
+        @group_id = params[:group_id]
+
+        if !Group.exists?(id: @group_id)
+            return render json: "{}", status: 404
+        end
+
+        if !current_user.groups.include? Group.find(@group_id)
+            return render json: "{}", status: 403
+        else
+            @group = Group.find(@group_id)
+            return render json: @group.messages, status: 200
+        end
+    end
 
     def create
         @message = Message.new(message_params)
@@ -7,20 +22,20 @@ class MessagesController < ApplicationController
         @group_id = params[:group_id]
 
         if !Group.exists?(id: @group_id)
-            render json: "{}", status: 404
+            return render json: "{}", status: 404
         end
 
         if !current_user.groups.include? Group.find(@group_id)
-            render json: "{}", status: 403
+            return render json: "{}", status: 403
         end
 
         @message.user_id = current_user.id
         @message.group_id = @group_id
 
         if @message.save
-            render json: @message, status: :created
+            return render json: @message, status: :created
         else
-            render json: @message.errors, status: 404
+            return render json: @message.errors, status: 404
         end
     end
 

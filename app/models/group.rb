@@ -6,4 +6,8 @@ class Group < ApplicationRecord
     validates :name, presence: true
     validates :category, presence: true
     validates :owner_id, presence: true
+
+    # def as_json(options={})
+    #     super(:include => :messages)
+    # end
 end

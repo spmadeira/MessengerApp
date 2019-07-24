@@ -12,4 +12,16 @@ class User < ActiveRecord::Base
   has_many :groups, through: :user_groups
 
   include DeviseTokenAuth::Concerns::User
+
+  def token_validation_response
+    {
+      user: {
+        id: id,
+        name: name,
+        email: email
+      },
+      groups: groups.as_json(:include => :messages)
+    }
+  end
+
 end
