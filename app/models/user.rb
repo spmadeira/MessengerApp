@@ -14,12 +14,12 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   def token_validation_response
+    login_data
+  end
+
+  def login_data
     {
-      user: {
-        id: id,
-        name: name,
-        email: email
-      },
+      user: self,
       groups: groups.as_json(:include => :messages)
     }
   end

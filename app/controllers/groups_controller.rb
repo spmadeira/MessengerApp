@@ -1,5 +1,11 @@
 class GroupsController < ApplicationController
-    before_action :authenticate_user!, only: [:create]
+    before_action :authenticate_user!, only: [:create, :show]
+
+    def show
+        @user = User.find(params[:user_id])
+
+        return render json: @user.groups, status: 200
+    end
 
     def create
         @group = Group.new(group_params)
