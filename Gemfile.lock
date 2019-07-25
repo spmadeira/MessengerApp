@@ -125,6 +125,8 @@ GEM
       mime-types
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
+    paranoia (2.4.2)
+      activerecord (>= 4.0, < 6.1)
     public_suffix (3.1.1)
     puma (3.12.1)
     rack (2.0.7)
@@ -229,6 +231,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   paperclip (~> 6.0.0)
+  paranoia (~> 2.2)
   puma (~> 3.11)
   rails (~> 5.2.3)
   sass-rails (~> 5.0)

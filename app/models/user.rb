@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
+  #Logic Exclusion
+  acts_as_paranoid
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :validatable
@@ -22,9 +25,13 @@ class User < ActiveRecord::Base
 
   def login_data
     {
-      user: self,
+      user: {
+        id: id,
+        email: email,
+        name: name,
+        avatar: avatar
+      },
       groups: groups.as_json(:include => :messages)
     }
   end
-
 end

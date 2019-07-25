@@ -1,10 +1,29 @@
 class GroupsController < ApplicationController
-    before_action :authenticate_user!, only: [:create, :show]
+    before_action :authenticate_user!, only: [:create, :show, :deleted]
 
     def show
         @user = User.find(params[:user_id])
 
         return render json: @user.groups, status: 200
+    end
+
+    def delete
+        @group_id = params[:group_id]
+
+        if !Group.exists?(id: @group_id)
+            return render json: "{}", status: 404
+        end
+
+        @group = Group.find(@group_id)
+
+        @usergroups = @group.user_groups
+
+        @gid = @group.id
+
+        @group.destroy
+        @usergroups.destroy
+
+        render json: {group: Group.with_deleted.find(@gid)}, status: 200
     end
 
     def create
