@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :user_groups
   has_many :groups, through: :user_groups
 
+  has_one_attached :avatar
+
   include DeviseTokenAuth::Concerns::User
 
   def token_validation_response

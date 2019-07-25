@@ -35,8 +35,10 @@ gem 'jbuilder', '~> 2.5'
 
 #Auth
 gem 'devise'
-#gem 'active_model_serializers', '~> 0.10.0'
 gem 'devise_token_auth'
+
+#Image Attachment
+gem 'paperclip', "~> 6.0.0"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
