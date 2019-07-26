@@ -20,10 +20,10 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   def token_validation_response
-    login_data
+    user_data
   end
 
-  def login_data
+  def user_data
     {
       user: {
         id: id,

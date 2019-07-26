@@ -1,8 +1,14 @@
-class GroupsController < ApplicationController
-    before_action :authenticate_user!, only: [:create, :show, :deleted]
+class GroupsController < ApiController
+    #before_action :authenticate_user!, only: [:create, :show, :delete]
 
     def show
-        @user = User.find(params[:user_id])
+        @user_id = params[:user_id]
+
+        if !User.exists?(id: @user_id)
+            return render json: "{}", status: 404
+        end
+
+        @user = User.find(@user_id)
 
         return render json: @user.groups, status: 200
     end

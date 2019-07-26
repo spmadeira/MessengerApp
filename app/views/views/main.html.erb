@@ -1,0 +1,13 @@
+<h1>User: <%= @user.name%></h1>
+
+<a href="/web/groups">Criar Grupo</a>
+
+<div>
+    <%@user.groups.each do |group| %>
+        <div>
+            <h1><a href=<%= "/web/groups/#{group.id}"%>>Grupo: <%= group.name%></a></h1>
+            Assunto: <%= group.category%><br>
+            Ultima Mensagem: <%= group.messages.last%>
+        </div>
+    <%end%>
+</div>

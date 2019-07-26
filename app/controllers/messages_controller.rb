@@ -1,4 +1,4 @@
-class MessagesController < ApplicationController
+class MessagesController < ApiController
     before_action :authenticate_user!, only: [:create, :show]
 
     def show

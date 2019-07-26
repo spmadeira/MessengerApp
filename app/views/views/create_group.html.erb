@@ -1,0 +1,17 @@
+<h1>Criar Grupo</h1>
+
+<%=form_for @group, url: '/web/groups/create' do |f| %>
+    <div class="field">
+        <%= f.label :name %><br />
+        <%= f.text_field :name, autofocus: true, autocomplete: "name"%>
+    </div>
+
+    <div class="field">
+        <%= f.label :category %><br />
+        <%= f.text_field :category%>
+    </div>
+
+    <div class="actions">
+        <%= f.submit "Criar" %>
+    </div>
+<% end %>>
