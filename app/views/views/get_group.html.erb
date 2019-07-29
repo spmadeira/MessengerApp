@@ -1,14 +1,32 @@
 <h1> Grupo: <%= @group.name%></h1>
 
+<%if current_user.id == @group.owner_id%>
+    <%= button_to "Apagar Grupo", "/web/groups/#{@group.id}", method: :delete%>
+<%end%>
+
 <h1> Mensagens: </h1>
 
 <div>
     <%@group.messages.each do |message| %>
         <div>
             <%= message.content%><br>
-            Enviador por: <%= message.user%>
+            Enviado por: <%= message.user.name%> as <%= message.created_at%>
+            <br><br>
         </div>
     <%end%>
 </div>
+<br><br>
+<div>
+    <%= form_for @message, url: "/web/groups/#{@group.id}/messages" do |f|%>
+        <h1>Nova Mensagem</h1>
+        <div class="field">
+            <%= f.text_area :content%>
+        </div>
 
-<!--> Adicionar form para comentário que recarrega essa pagina
+        <div class = "actions">
+            <%= f.submit "Enviar"%>
+        </div>
+    <%end%>
+</div>
+<br>
+<a href = '/main'>Voltar</a>

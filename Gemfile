@@ -50,6 +50,9 @@ gem 'jquery-rails'
 #Database Testing
 gem 'ffaker'
 
+#Testes
+gem 'rspec-rails', '~> 3.8'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

@@ -1,0 +1,31 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type = "text/javascript">
+    function getImage(){
+        var reader = new FileReader();
+        var f = document.getElementById("photo").files;
+
+        reader.onloadend = function () {
+            const url = '/web/users';
+            const data = {
+                avatar: reader.result
+            };
+
+            console.log(data);
+
+            $.post(url,data);
+        }
+        
+        reader.readAsDataURL(f[0]); 
+    }
+</script>
+
+<h1><%= current_user.name%></h1>
+
+<br>
+<img src = <%= current_user.avatar%> width=300 height=300>
+<form action = <%="/web/users"%> method = "POST">
+    <input type="file" name="photo" accept="image/*" id="photo">
+</form>
+<button onclick="getImage()" id="upload-button">Alterar Avatar</button>
+<br><br>
+<a href = '/main'>Voltar</a>

@@ -1,5 +1,8 @@
-<h1>User: <%= @user.name%></h1>
-
+<h1><a href=<%= "web/users/#{current_user.id}"%>>User: <%= @user.name%></a></h1>
+<div>
+    <%= link_to "Logoff", '/web/sign_out', method: :delete%>
+</div>
+<br><br>
 <a href="/web/groups">Criar Grupo</a>
 
 <div>
@@ -7,7 +10,7 @@
         <div>
             <h1><a href=<%= "/web/groups/#{group.id}"%>>Grupo: <%= group.name%></a></h1>
             Assunto: <%= group.category%><br>
-            Ultima Mensagem: <%= group.messages.last%>
+            Ultima Mensagem: <%= group.messages.last != nil ? group.messages.last.content : ''%>
         </div>
     <%end%>
 </div>
