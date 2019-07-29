@@ -1,9 +1,13 @@
 class ViewsController < ApplicationController
-    before_action :authenticate_user!, only: [:main, :get_group, :create_group, :send_message, :destroy_group, :user_profile, :add_photo]
+    before_action :authenticate_user!, only: [:main, :get_group, :create_group, :send_message, :destroy_group, :user_profile, :add_photo, :get_groups]
 
     def main
         @user = current_user
         @groups = current_user.groups
+    end
+
+    def get_groups
+        @groups = Group.all;
     end
 
     def user_profile

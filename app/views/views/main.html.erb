@@ -3,7 +3,8 @@
     <%= link_to "Logoff", '/web/sign_out', method: :delete%>
 </div>
 <br><br>
-<a href="/web/groups">Criar Grupo</a>
+<a href="/web/groups/create">Criar Grupo</a>
+<a href="/web/groups">Procurar Grupos</a>
 
 <div>
     <%@user.groups.each do |group| %>

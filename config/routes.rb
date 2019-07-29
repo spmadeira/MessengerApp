@@ -7,13 +7,14 @@ Rails.application.routes.draw do
 
   #Web
   get '/main', to: 'views#main'
-  get '/web/groups', to: 'views#create_group'
+  get '/web/groups/create', to: 'views#create_group'
   post '/web/groups/create', to: "views#create"
   get '/web/groups/:group_id', to: "views#get_group"
   post '/web/groups/:group_id/messages', to: "views#send_message"
   delete '/web/groups/:group_id', to: "views#destroy_group"
   get '/web/users/:user_id', to: "views#user_profile"
   post '/web/users', to: "views#add_photo"
+  get '/web/groups', to: "views#get_groups"
 
   # mount_devise_token_auth_for 'User', at: 'auth', controllers: {
   #   sessions: "sessions"
