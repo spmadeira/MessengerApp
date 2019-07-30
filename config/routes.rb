@@ -37,5 +37,8 @@ Rails.application.routes.draw do
   post   '/groups/:group_id/messages', to: 'messages#create'
   get    '/groups/:group_id/messages', to: 'messages#show'
 
+  get '*path' => redirect('/')
+
+  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

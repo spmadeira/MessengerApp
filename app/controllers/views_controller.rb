@@ -157,7 +157,7 @@ class ViewsController < ApplicationController
                 format.json{render :show, status: :created, location: @message }
             else
                 @message = Message.new
-                format.html { render :new }
+                format.html { render :get_group }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end
         end
@@ -200,7 +200,7 @@ class ViewsController < ApplicationController
                 format.json { render :show, status: :created, location: @group }
             else
                 @group = Group.new
-                format.html { render :new }
+                format.html { render :create_group }
                 format.json { render json: @group.errors, status: :unprocessable_entity }
             end
           end
