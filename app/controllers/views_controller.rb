@@ -83,6 +83,32 @@ class ViewsController < ApplicationController
         redirect_to "/web/groups/#{@group_id}"
     end
 
+    def kick_user
+        @group_id = params[:group_id]
+        @user_id = params[:user_id]
+
+        @group = Group.find(@group_id)
+
+        if @group.owner_id != current_user.id
+            return render json: "{}", status: 403
+        end
+
+        if !User.exists?(id: @user_id)
+            return render json: "{}", status: 404
+        end
+
+        @user = User.find(@user_id)
+        if !@group.users.include? @user
+            return render json: "{}", status: 403
+        end
+
+        @usergroup = @group.user_groups.where(user_id: @user.id).first
+
+        @usergroup.destroy
+
+        redirect_to "/web/groups/#{@group_id}"
+    end
+
     def user_profile
         
     end

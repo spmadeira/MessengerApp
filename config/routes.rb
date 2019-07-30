@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   put '/web/groups/:group_id/privacy', to: "views#change_group_privacy"
   post '/web/groups/:group_id/invites', to: "views#send_invite"
   delete '/web/invites/:invite_id/accept', to: "views#accept_invite"
+  delete '/web/groups/:group_id/users/:user_id', to: "views#kick_user"
 
   # mount_devise_token_auth_for 'User', at: 'auth', controllers: {
   #   sessions: "sessions"

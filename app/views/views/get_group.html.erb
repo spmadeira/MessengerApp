@@ -1,16 +1,20 @@
 <h1> Grupo: <%= @group.name%></h1>
-<div>
-    Privacidade: <%= @group.privacy == true ? "Private" : "Public" %>
-    <%= button_to "Alterar Privacidade", "/web/groups/#{@group.id}/privacy", method: :put%>
-</div>
 <%if current_user.id == @group.owner_id%>
+    <div>
+        Privacidade: <%= @group.privacy == true ? "Private" : "Public" %>
+        <%= button_to "Alterar Privacidade", "/web/groups/#{@group.id}/privacy", method: :put%>
+    </div>
     <%= button_to "Apagar Grupo", "/web/groups/#{@group.id}", method: :delete%>
 <%end%>
 <br>
 <div>
-    Usuarios: 
+    Usuarios: <br>
     <%@group.users.each do |user|%>
-        <%= user.name%> -
+        <%= user.name%> 
+        <% if current_user.id == @group.owner_id && user.id != @group.owner_id%>
+            <%= button_to "Remover Usuario", "/web/groups/#{@group.id}/users/#{user.id}", method: :delete%>
+        <%end%>
+        <br>
     <%end%>
 </div>
 
