@@ -1,12 +1,12 @@
 <div>
     <%@groups.each do |group| %>
-        <%if !group.users.include? current_user%>
-            <div>
-                <h1>Grupo: <%= group.name%></h1>
+        <div>
+            <h1>Grupo: <%= group.name%></h1>
                 Criado por: <%= User.find(group.owner_id).name%><br>
                 Assunto: <%= group.category%><br>
-                Ultima Mensagem: <%= group.messages.last != nil ? group.messages.last.content : ''%>
-            </div>
-        <%end%>
+                <%= button_to "Mandar Convite", "/web/groups/#{group.id}/invites", method: :post%>
+        </div>
     <%end%>
 </div>
+
+<a href = '/main'>Voltar</a>

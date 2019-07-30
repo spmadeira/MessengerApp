@@ -1,8 +1,20 @@
 <h1> Grupo: <%= @group.name%></h1>
-
+<div>
+    Privacidade: <%= @group.privacy == true ? "Private" : "Public" %>
+    <%= button_to "Alterar Privacidade", "/web/groups/#{@group.id}/privacy", method: :put%>
+</div>
 <%if current_user.id == @group.owner_id%>
     <%= button_to "Apagar Grupo", "/web/groups/#{@group.id}", method: :delete%>
 <%end%>
+<br>
+<div>
+    Usuarios: 
+    <%@group.users.each do |user|%>
+        <%= user.name%> -
+    <%end%>
+</div>
+
+
 
 <h1> Mensagens: </h1>
 
@@ -29,4 +41,15 @@
     <%end%>
 </div>
 <br>
+
+<h1> Convites: </h1>
+<div>
+    <%@group.invites.each do |invite|%>
+        <div>
+            Convite de: <%= invite.user.name%>
+            <%= button_to "Aceitar", "/web/invites/#{invite.id}/accept", method: :delete%>
+        </div>
+    <%end%>
+</div>
+
 <a href = '/main'>Voltar</a>

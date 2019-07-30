@@ -1,5 +1,5 @@
 class ViewsController < ApplicationController
-    before_action :authenticate_user!, only: [:main, :get_group, :create_group, :send_message, :destroy_group, :user_profile, :add_photo, :get_groups]
+    before_action :authenticate_user!, only: [:main, :get_group, :create_group, :send_message, :destroy_group, :user_profile, :add_photo, :get_groups, :send_invite, :change_group_privacy, :accept_invite]
 
     def main
         @user = current_user
@@ -7,7 +7,80 @@ class ViewsController < ApplicationController
     end
 
     def get_groups
-        @groups = Group.all;
+        @groups = Group.all.where(private: false) - (current_user.groups + current_user.invite_groups)
+    end
+
+    def change_group_privacy
+        @group_id = params[:group_id]
+
+        if !Group.exists?(id: @group_id)
+            return render json: "{}", status: 404
+        end
+
+        @group = Group.find(@group_id)
+
+        if @group.owner_id != current_user.id
+            return render json: "{}", status: 403
+        end
+        
+        @group.private = !@group.private
+        @group.save
+
+        redirect_to "/web/groups/#{@group.id}"
+    end
+
+    def send_invite
+        @group_id = params[:group_id]
+
+        if !Group.exists?(id: @group_id)
+            return render json: "{}", status: 404
+        end
+
+        @group = Group.find(@group_id)
+
+        #Usuario já está no grupo
+        if current_user.groups.include? @group
+            return render json: "{}", status: 403
+        end
+
+        #Já mandou um convite
+        if current_user.invite_groups.include? @group
+            return render json: "{}", status: 403
+        end
+
+        Invite.create(user_id: current_user.id, group_id: @group_id)
+
+        redirect_to "/web/groups"
+    end
+
+    def accept_invite
+        @invite = Invite.find(params[:invite_id])
+        @group_id = @invite.group_id
+        if !Group.exists?(id: @group_id)
+            return render json: "{}", status: 404
+        end
+
+        @group = Group.find(@group_id)
+
+        if @group.owner_id != current_user.id
+            return render json: "{}", status: 403
+        end
+
+        @user_id = @invite.user_id
+        if !User.exists?(id: @user_id)
+            return render json: "{}", status: 404
+        end
+
+        @user = User.find(@user_id)
+        if @group.users.include? @user
+            return render json: "{}", status: 403
+        end
+
+        UserGroup.create(user_id: @invite.user_id, group_id: @invite.group_id)
+
+        @invite.destroy
+
+        redirect_to "/web/groups/#{@group_id}"
     end
 
     def user_profile
@@ -110,7 +183,7 @@ class ViewsController < ApplicationController
     private
 
     def group_params
-        params.require(:group).permit(:name,:category)
+        params.require(:group).permit(:name,:category, :private)
     end
 
     def message_params

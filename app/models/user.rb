@@ -13,6 +13,21 @@ class User < ActiveRecord::Base
 
   has_many :user_groups
   has_many :groups, through: :user_groups
+  has_many :invites
+  
+  #Pesado no banco, ver como refazer
+  def invite_groups
+    @g = Group.new
+    @array = [@g]
+    
+    invites.each do |invite|
+      @array += [invite.group]
+    end
+
+    @array -= [@g]
+
+    return @array
+  end
 
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>"}
   validates_attachment_content_type :avatar, content_type: ['image/jpeg', 'image/png']
