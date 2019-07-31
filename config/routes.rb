@@ -26,6 +26,11 @@ Rails.application.routes.draw do
   #   sessions: "sessions"
   # }
 
+  namespace :api, defaults: {format: 'json'} do
+      mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks], controllers: {
+        sessions: "sessions"
+      }
+  end
 
   post   '/groups', to: 'groups#create'
   delete '/groups/:group_id', to: 'groups#delete'

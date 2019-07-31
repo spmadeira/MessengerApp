@@ -2,11 +2,6 @@ class ViewsController < ApplicationController
     before_action :authenticate_user!, only: [:main, :get_group, :create_group, :send_message, :destroy_group, :user_profile, :add_photo, :get_groups, :send_invite, :change_group_privacy, :accept_invite, :complete_signup, :finish_signup]
 
     def main
-        if (current_user.email == nil)
-            redirect_to '/web/user'
-            return
-        end
-
         @user = current_user
         @groups = current_user.groups
     end
