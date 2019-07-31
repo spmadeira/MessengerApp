@@ -261,7 +261,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   client_id = "109669729682-odrgppfqrk18rt37nkql2h7lnqqd5s2h.apps.googleusercontent.com"
-  client_secret = "rL1h5qAjlfjazDKh3H0FyXYi"
+  client_secret = "5qhF-OerNdnYo_JVejMKsTk2"
 
   config.omniauth :google_oauth2, client_id, client_secret, {
     scope: "userinfo.email, userinfo.profile"
