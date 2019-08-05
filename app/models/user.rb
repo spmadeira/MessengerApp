@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
 
   #validates :email, presence: true
   #validates :name, presence: true
-  validates :uid, presence: true
-  validates :provider, presence: true
+  #validates :uid, presence: true
+  #validates :provider, presence: true
 
   has_many :user_groups
   has_many :groups, through: :user_groups

@@ -13,16 +13,12 @@ class ViewsController < ApplicationController
     def change_group_privacy
         @group_id = params[:group_id]
 
-        if !Group.exists?(id: @group_id)
-            return render json: "{}", status: 404
-        end
-
-        @group = Group.find(@group_id)
-
-        if @group.owner_id != current_user.id
+        if !(current_user_owns_group(@group_id))
             return render json: "{}", status: 403
         end
         
+        @group = group_exists(@group_id)
+
         @group.private = !@group.private
         @group.save
 
@@ -218,5 +214,33 @@ class ViewsController < ApplicationController
 
     def message_params
         params.require(:message).permit(:content)
+    end
+
+    def group_exists(group_id)
+        if Group.exists?(id: group_id)
+            return Group.find(group_id)
+        else
+            return nil
+        end
+    end
+
+    def group_has_current_user(group_id)
+        group = group_exists(group_id)
+
+        if (group == nil)
+            return false
+        else
+            return group.users.include? current_user
+        end
+    end
+
+    def current_user_owns_group(group_id)
+        group = group_exists(group_id)
+
+        if (group == nil)
+            return false
+        else
+            return group.owner_id == current_user.id
+        end
     end
 end

@@ -60,6 +60,9 @@ gem 'omniauth-google-oauth2'
 gem 'whenever'
 gem 'clockwork'
 
+#Cors
+gem 'rack-cors', '~> 0.2.9', require: 'rack/cors'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
