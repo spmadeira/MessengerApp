@@ -1,5 +1,5 @@
 class UsersController < ApiController
-    before_action :authenticate_user!, only: [:show, :show_avatar, :create_avatar, :leave]
+    before_action :authenticate_user!, only: [:get_user, :show, :show_avatar, :create_avatar, :leave]
 
     def show
         @user_id = params[:user_id]
@@ -10,7 +10,11 @@ class UsersController < ApiController
 
         @user = User.find(@user_id)
 
-        return render json: {}, status: 404
+        return render json: @user, status: 200
+    end
+
+    def get_user
+        return render json: current_user.user_data, status:200
     end
 
     def group_join
@@ -70,7 +74,7 @@ class UsersController < ApiController
 
     def create_avatar
         encoded_image = avatar_params.split(",")[1]
-        @user = User.find(params[:user_id])
+        @user = current_user
         StringIO.open(Base64.decode64(encoded_image)) do |data|
             data.class.class_eval { attr_accessor :original_filename, :content_type }
             data.original_filename = "avatar.png"
