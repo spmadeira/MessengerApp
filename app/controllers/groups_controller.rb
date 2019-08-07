@@ -1,5 +1,43 @@
 class GroupsController < ApiController
-    #before_action :authenticate_user!, only: [:create, :show, :delete]
+    before_action :authenticate_user!, only: [:create, :show, :delete, :get_groups, :other_groups, :send_invite]
+
+    def other_groups
+        @groups = Group.all.where(private: false) - (current_user.groups + current_user.invite_groups)
+
+        @json = [""];
+
+        @groups.each do |group|
+            @json.push(group.external_info);
+        end
+
+        @json.shift();
+
+        return render json: @json, status: 200
+    end
+
+    def send_invite
+        @group_id = params[:group_id]
+
+        if !Group.exists?(id: @group_id)
+            return render json: "{}", status: 404
+        end
+
+        @group = Group.find(@group_id)
+
+        #Usuario já está no grupo
+        if current_user.groups.include? @group
+            return render json: "{}", status: 403
+        end
+
+        #Já mandou um convite
+        if current_user.invite_groups.include? @group
+            return render json: "{}", status: 403
+        end
+
+        Invite.create(user_id: current_user.id, group_id: @group_id)
+
+        return render json: "{}", status: 201
+    end
 
     def show
         @user_id = params[:user_id]
@@ -9,6 +47,12 @@ class GroupsController < ApiController
         end
 
         @user = User.find(@user_id)
+
+        return render json: @user.groups, status: 200
+    end
+
+    def get_groups
+        @user = current_user
 
         return render json: @user.groups, status: 200
     end
@@ -48,6 +92,6 @@ class GroupsController < ApiController
     private
 
     def group_params
-        params.require(:group).permit(:name, :category)
+        params.require(:group).permit(:name, :category, :private)
     end
 end

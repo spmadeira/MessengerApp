@@ -13,4 +13,13 @@ class Group < ApplicationRecord
     def privacy
         return self.private
     end
+
+    def external_info
+        {
+            id: id,
+            name: name,
+            category: category,
+            owner: User.find(owner_id).name
+        }
+    end
 end

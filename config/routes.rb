@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   end
 
   post   '/groups', to: 'groups#create'
+  get    '/groups', to: 'groups#other_groups'
+  post   '/groups/:group_id/invites', to: 'groups#send_invite'
   delete '/groups/:group_id', to: 'groups#delete'
   get    '/users/:user_id', to: 'users#show'
   post   '/user/avatar', to: 'users#create_avatar'
@@ -40,6 +42,7 @@ Rails.application.routes.draw do
   get    '/users/:user_id/avatar', to: 'users#show_avatar'
   get    '/user', to: 'users#get_user'
   get    '/users/:user_id/groups', to: 'groups#show'
+  get    '/user/groups', to: 'groups#get_groups'
   post   '/users/:user_id/groups', to: 'users#group_join'
   delete '/users/:user_id/groups/:group_id', to: 'users#group_leave'
   post   '/groups/:group_id/messages', to: 'messages#create'
