@@ -32,8 +32,13 @@ Rails.application.routes.draw do
       }
   end
 
+  
   post   '/groups', to: 'groups#create'
+  put    '/groups/:group_id/privacy', to: "groups#change_group_privacy"
   get    '/groups', to: 'groups#other_groups'
+  delete '/groups/:group_id', to: 'groups#delete_group'
+  delete '/groups/:group_id/users/:user_id', to: 'groups#remove_user'
+  get    '/groups/:group_id', to: 'groups#get_group'
   post   '/groups/:group_id/invites', to: 'groups#send_invite'
   delete '/groups/:group_id', to: 'groups#delete'
   get    '/users/:user_id', to: 'users#show'

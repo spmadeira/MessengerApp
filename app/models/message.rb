@@ -7,4 +7,8 @@ class Message < ApplicationRecord
     validates :user_id, presence: true
     validates :group_id, presence: true
     validates :content, presence: true
+
+    def to_json(options)
+        super(include: {user_name: user.name})
+    end
 end
